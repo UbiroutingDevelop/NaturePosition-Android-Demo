@@ -32,7 +32,7 @@ public class MainActivity extends Activity implements ShituLocationListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        //ÔÚÊ¹ÓÃ¶¨Î»Ç°µ÷ÓÃ Ò»´ÎÔËĞĞĞèµ÷ÓÃ1´Î
+        //åœ¨ä½¿ç”¨å®šä½å‰è°ƒç”¨ ä¸€æ¬¡è¿è¡Œéœ€è°ƒç”¨1æ¬¡
         ShituLocationLoader.getInstance(this);
         
         dataM=new ShituPlaceDataManager(this);
@@ -41,16 +41,16 @@ public class MainActivity extends Activity implements ShituLocationListener{
 			@Override
 			public void onDataReturn(List<Place> arg0) {
 				for (Place place : arg0) {
-					//¿ÉÒÔ»ñÈ¡µ½ÄúÖ®Ç°Ìí¼ÓµÄĞÅÏ¢
+					//å¯ä»¥è·å–åˆ°æ‚¨ä¹‹å‰æ·»åŠ çš„ä¿¡æ¯
 					Log.d(LOGD_TEXT, "id:"+place.getPlaceId()+",name:"+place.getPlaceName());
 				}
 				
-				//¶¨Î»ĞèÒªÈ·¶¨Ò»¸ö×¼È·½¨Öş
+				//å®šä½éœ€è¦ç¡®å®šä¸€ä¸ªå‡†ç¡®å»ºç­‘
 				if(arg0!=null&&arg0.size()>0){
 					currentPlace=arg0.get(11);
 				}
 				
-				//³õÊ¼»¯¶¨Î»
+				//åˆå§‹åŒ–å®šä½
 				handler.sendEmptyMessage(0);
 			}
 		});
@@ -68,14 +68,14 @@ public class MainActivity extends Activity implements ShituLocationListener{
 		for (Floor floor : currentPlace.getFloorList()) {
 			
 //			BitmapFactory.Options options = new BitmapFactory.Options();  
-//			options.inJustDecodeBounds = true;  /* ÕâÀïÊ¹·µ»ØµÄbmpÊÇnull ²»Éú³ÉÕæµÄbitmap,·ÀÖ¹ÄÚ´æÒç³ö*/  
+//			options.inJustDecodeBounds = true;  /* è¿™é‡Œä½¿è¿”å›çš„bmpæ˜¯null ä¸ç”ŸæˆçœŸçš„bitmap,é˜²æ­¢å†…å­˜æº¢å‡º*/  
 //			BitmapFactory.decodeFile(floor.getFloorPicPath(), options);
 			
 //			int height=options.outHeight;
 //			int width=options.outWidth;
 			
-			//¶¨Î»ĞèÒªÃ¿Ò»²ãµÄÏñËØ¸ß¿í ¿ÉÊ¹ÓÃÉÏÃæ´úÂëÍ¨¹ı Í¼Æ¬À´»ñÈ¡
-			//´Ëdemo ²¢Î´¼¯³É ÏÂÔØÍ¼Æ¬
+			//å®šä½éœ€è¦æ¯ä¸€å±‚çš„åƒç´ é«˜å®½ å¯ä½¿ç”¨ä¸Šé¢ä»£ç é€šè¿‡ å›¾ç‰‡æ¥è·å–
+			//æ­¤demo å¹¶æœªé›†æˆ ä¸‹è½½å›¾ç‰‡
 			int height=500;
 			int width=500;
 			
@@ -85,22 +85,22 @@ public class MainActivity extends Activity implements ShituLocationListener{
 		}
 		
 		ShituLocationParameters parameters = new ShituLocationParameters(
-				//Ëù¶¨Î»µÄ½¨ÖşID
+				//æ‰€å®šä½çš„å»ºç­‘ID
 				currentPlace.getPlaceId(),
-				//Ä¬ÈÏÂ¥²ã(demoÖĞÖ±½ÓÈ¡ 0 ×÷ÎªÄ¬ÈÏÂ¥²ã)
+				//é»˜è®¤æ¥¼å±‚(demoä¸­ç›´æ¥å– 0 ä½œä¸ºé»˜è®¤æ¥¼å±‚)
 				currentPlace.getFloorList().get(0).getFloorNum(), 
-				//allFloor¶ÔÏó ĞèÒªÔÚÆäÖĞ ¹¹Ôì :²ãnum,Í¼Æ¬ÏñËØ¿í,Í¼Æ¬ÏñËØ¸ß,scale,angle
+				//allFloorå¯¹è±¡ éœ€è¦åœ¨å…¶ä¸­ æ„é€  :å±‚num,å›¾ç‰‡åƒç´ å®½,å›¾ç‰‡åƒç´ é«˜,scale,angle
 				allFloors,
-				//¶¨Î»Ä£Ê½
+				//å®šä½æ¨¡å¼
 				ShituLocationManager.LOC_MAG_WIFI);
 		parameters.enableLight();
 
 		natureLocation = ShituLocationManager.newManager(this, parameters);
 		natureLocation.setOnLocationListener(this);
-		//µ½ÁËÕâÒ»²½ ¿ÉÄÜ²¢²»»á¶¨³öÎ»ÖÃ
-		//ÕâÊÜÏŞÓÚÄúµÄ ËùÓÃÀ´ÉêÇë KeyµÄÕËºÅÏÂ ÊÇ·ñ´æÔÚ½¨Öş
-		//Èç¹û¶Ôdemo ²»×ö ¸ü¸Ä Ä¬ÈÏÈ¡Äú½¨ÖşÁĞ±íÖĞµÄµÚÒ»¸ö½¨ÖşµÄµÚÒ»²ãÓÃÀ´¶¨Î»
-		//Èç¹ûÄúÕâ²ãÖĞ Î´ÉÏ´«Êı¾İÍ¬Ñù¿ÉÄÜÎŞ·¨¶¨³öÎ»ÖÃ(»Øµ÷getLocation)
+		//åˆ°äº†è¿™ä¸€æ­¥ å¯èƒ½å¹¶ä¸ä¼šå®šå‡ºä½ç½®
+		//è¿™å—é™äºæ‚¨çš„ æ‰€ç”¨æ¥ç”³è¯· Keyçš„è´¦å·ä¸‹ æ˜¯å¦å­˜åœ¨å»ºç­‘
+		//å¦‚æœå¯¹demo ä¸åš æ›´æ”¹ é»˜è®¤å–æ‚¨å»ºç­‘åˆ—è¡¨ä¸­çš„ç¬¬ä¸€ä¸ªå»ºç­‘çš„ç¬¬ä¸€å±‚ç”¨æ¥å®šä½
+		//å¦‚æœæ‚¨è¿™å±‚ä¸­ æœªä¸Šä¼ æ•°æ®åŒæ ·å¯èƒ½æ— æ³•å®šå‡ºä½ç½®(å›è°ƒgetLocation)
 		if(natureLocation!=null){
 			natureLocation.onResume();
 			natureLocation.start();
@@ -132,10 +132,10 @@ public class MainActivity extends Activity implements ShituLocationListener{
 	public void onGetStatus(int status) {
 		switch (status) {
 		case ShituLocationListener.STATUS_FIRST_RELIABLE_LOCATE:
-			Toast.makeText(this, "¿ªÊ¼¶¨Î»", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "å¼€å§‹å®šä½", Toast.LENGTH_LONG).show();
 			break;
 		case ShituLocationListener.STATUS_RECONNECT_SUCCESS:
-			Toast.makeText(this, "ÖØĞÂÁ¬½Ó·şÎñÆ÷³É¹¦", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "é‡æ–°è¿æ¥æœåŠ¡å™¨æˆåŠŸ", Toast.LENGTH_LONG).show();
 			break;
 		}		
 	}
@@ -144,16 +144,16 @@ public class MainActivity extends Activity implements ShituLocationListener{
 	public void onException(String description, int errorType) {
 		switch (errorType) {
 		case ShituLocationListener.ERROR_FAILED_CONNECTING_TO_SERVER:
-			// µÚÒ»´Î¶¼Ã»Á¬ÉÏ
-			Toast.makeText(this, "³õÊ¼»¯Á¬½ÓÊ§°Ü", Toast.LENGTH_LONG).show();
+			// ç¬¬ä¸€æ¬¡éƒ½æ²¡è¿ä¸Š
+			Toast.makeText(this, "åˆå§‹åŒ–è¿æ¥å¤±è´¥", Toast.LENGTH_LONG).show();
 			break;
 		case ShituLocationListener.ERROR_FAILED_TO_GET_POSITION:
-			// ¶¨¹ı¹ı³ÌÖĞ¶Ï¿ª
-			Toast.makeText(this, "Á¬½Ó·şÎñÆ÷¶Ï¿ª", Toast.LENGTH_LONG).show();
+			// å®šè¿‡è¿‡ç¨‹ä¸­æ–­å¼€
+			Toast.makeText(this, "è¿æ¥æœåŠ¡å™¨æ–­å¼€", Toast.LENGTH_LONG).show();
 			break;
 		case ShituLocationListener.ERROR_LACKOF_KEY_SENSORS:
-			// È±ÉÙ¹Ø¼ü´«¸ĞÆ÷
-			Toast.makeText(this, "È±ÉÙ¹Ø¼ü´«¸ĞÆ÷", Toast.LENGTH_LONG).show();
+			// ç¼ºå°‘å…³é”®ä¼ æ„Ÿå™¨
+			Toast.makeText(this, "ç¼ºå°‘å…³é”®ä¼ æ„Ÿå™¨", Toast.LENGTH_LONG).show();
 			break;
 		default:
 			break;
